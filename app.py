@@ -66,3 +66,7 @@ st.markdown(
 if st.button("Generate Draft Message 🚀"):
     st.write("*(Draft message will appear here...)*")
 
+from webUI import main
+
+if __name__ == "__main__":
+    main()
