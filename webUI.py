@@ -176,6 +176,9 @@ def main():
     person = analysis_df[analysis_df['Contact'] == selected].iloc[0]
 
     colA, colB = st.columns(2)
+    # --- BOTTOM ROW: ACTIONABLE ADVICE ---
+    #if st.button("Generate Draft Message"):
+        #st.write("*(Draft message will appear here...)*")
 
     with colA:
         st.metric("Health Score", person["Health Score"])
@@ -190,6 +193,25 @@ def main():
         st.write("Consecutive You:", person["Consecutive You"])
         st.write("Last Interaction:", person["Last Interaction"])
 
+    if st.button("AI Behaviour Insight"):
+        # --- AI INTELLIGENCE (BEHAVIORAL) ---
+        st.header("AI Behavioral Insights")
+        colA, colB = st.columns(2)
+
+        with colA:
+            st.subheader("📝 Conversation Summary")
+            st.info(
+                "The conversation has been highly collaborative over the past 7 days. "
+                "Both parties are actively engaging, though there was a slight drop in communication over the weekend. "
+                "Overall tone remains supportive and forward-looking."
+            )
+
+        with colB:
+            st.subheader("🚩 Behavioral Flags")
+            st.success("✅ High reciprocal questioning (showing mutual interest).")
+            st.warning("⚠️ User B has been using shorter sentences lately.")
+            st.success("✅ Consistent daily check-ins.")
+
     st.subheader("Conversation History")
 
     chat = df[df['contact'] == selected][['timestamp', 'sender', 'message']]
@@ -197,6 +219,7 @@ def main():
     chat['timestamp'] = chat['timestamp'].dt.strftime('%b %d, %H:%M')
 
     st.dataframe(chat, height=400, use_container_width=True)
+
 
 
 if __name__ == "__main__":
