@@ -196,6 +196,7 @@ def main():
     if st.button("AI Behaviour Insight"):
         # --- AI INTELLIGENCE (BEHAVIORAL) ---
         st.header("AI Behavioral Insights")
+
         colA, colB = st.columns(2)
 
         with colA:
