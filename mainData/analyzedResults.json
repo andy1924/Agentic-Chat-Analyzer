@@ -1,56 +1,384 @@
 [
     {
-        "communication_style": "Casual & directive",
-        "emotional_baseline": "Light-hearted and upbeat",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and humorous",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Uses casual language and slang",
-            "Frequently employs humor (e.g., 'lol \ud83d\ude02')",
-            "Regularly checks in on tasks and deadlines"
+            "Uses informal language",
+            "Frequent use of humor and emojis",
+            "Regularly checks in on deadlines"
         ],
-        "interaction_advice": "To communicate effectively with this person, use a casual tone and incorporate humor where appropriate. Be direct in your requests and provide clear timelines. Acknowledge their casual language style by using similar phrasing and emojis to create rapport.",
+        "interaction_advice": "To communicate effectively with this person, maintain a casual tone, use humor where appropriate, and be direct in your requests. Acknowledge their informal style and respond with similar energy to foster rapport.",
+        "suggested_reminders": [
+            {
+                "event_title": "Check the roadmap",
+                "datetime_context": "2026-02-18T03:45:00+05:30",
+                "description": "User requested to check the roadmap."
+            },
+            {
+                "event_title": "Check the project proposal",
+                "datetime_context": "2026-02-18T05:31:00+05:30",
+                "description": "User requested to check the project proposal."
+            },
+            {
+                "event_title": "Finalize the invoice",
+                "datetime_context": "2026-02-18T06:01:00+05:30",
+                "description": "User requested to finalize the invoice."
+            },
+            {
+                "event_title": "Check the final deliverable",
+                "datetime_context": "2026-02-18T07:13:00+05:30",
+                "description": "User requested to check the final deliverable."
+            },
+            {
+                "event_title": "Send the API documentation",
+                "datetime_context": "2026-02-18T08:15:00+05:30",
+                "description": "User requested to send the API documentation."
+            },
+            {
+                "event_title": "Check the meeting minutes",
+                "datetime_context": "2026-02-18T09:23:00+05:30",
+                "description": "User requested to check the meeting minutes."
+            },
+            {
+                "event_title": "Approve the meeting minutes",
+                "datetime_context": "2026-02-18T10:07:00+05:30",
+                "description": "User requested to approve the meeting minutes."
+            },
+            {
+                "event_title": "Update the deployment logs",
+                "datetime_context": "2026-02-18T10:45:00+05:30",
+                "description": "User requested to update the deployment logs."
+            },
+            {
+                "event_title": "Submit the budget",
+                "datetime_context": "2026-02-18T12:15:00+05:30",
+                "description": "User requested to submit the budget."
+            },
+            {
+                "event_title": "Update the Q4 report",
+                "datetime_context": "2026-02-18T12:39:00+05:30",
+                "description": "User requested to update the Q4 report."
+            },
+            {
+                "event_title": "Discuss the roadmap",
+                "datetime_context": "2026-02-18T12:41:00+05:30",
+                "description": "User requested to discuss the roadmap."
+            },
+            {
+                "event_title": "Reschedule the deployment logs",
+                "datetime_context": "2026-02-18T15:51:00+05:30",
+                "description": "User requested to reschedule the deployment logs."
+            },
+            {
+                "event_title": "Reschedule the budget",
+                "datetime_context": "2026-02-18T19:25:00+05:30",
+                "description": "User requested to reschedule the budget."
+            },
+            {
+                "event_title": "Finalize the final deliverable",
+                "datetime_context": "2026-02-19T00:39:00+05:30",
+                "description": "User requested to finalize the final deliverable."
+            },
+            {
+                "event_title": "Reschedule the roadmap",
+                "datetime_context": "2026-02-19T01:29:00+05:30",
+                "description": "User requested to reschedule the roadmap."
+            },
+            {
+                "event_title": "Grab coffee",
+                "datetime_context": "2026-02-19T01:39:00+05:30",
+                "description": "User suggested to grab coffee."
+            },
+            {
+                "event_title": "Approve the final deliverable",
+                "datetime_context": "2026-02-19T04:03:00+05:30",
+                "description": "User requested to approve the final deliverable."
+            },
+            {
+                "event_title": "Discuss the project proposal",
+                "datetime_context": "2026-02-19T05:41:00+05:30",
+                "description": "User requested to discuss the project proposal."
+            },
+            {
+                "event_title": "Approve the client feedback",
+                "datetime_context": "2026-02-19T06:15:00+05:30",
+                "description": "User requested to approve the client feedback."
+            }
+        ],
         "analyzed_user": "You",
         "messages_analyzed": 50,
         "total_messages_sent": 2548
     },
     {
-        "communication_style": "Casual & Direct",
-        "emotional_baseline": "Light-hearted and friendly, with moments of urgency",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and humorous, with a tendency towards excitement",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Frequently uses casual greetings like 'Bro' and 'Yo'",
-            "Incorporates humor and emojis to lighten the tone",
-            "Uses direct requests and commands, often related to work tasks"
+            "Uses informal language",
+            "Frequent use of humor and emojis",
+            "Direct in requests and reminders"
         ],
-        "interaction_advice": "To communicate effectively with this person, use casual language and humor. Incorporate friendly greetings and emojis to match their tone. Be direct in your requests, and don't hesitate to suggest meetups or casual conversations.",
+        "interaction_advice": "To communicate effectively with this person, keep the tone casual and friendly. Use informal greetings and be direct in your requests. Incorporate humor or emojis to match their light-hearted style, and be responsive to their frequent invitations to meet up or discuss matters.",
+        "suggested_reminders": [
+            {
+                "event_title": "Grab coffee",
+                "datetime_context": "ASAP",
+                "description": "Meet up for coffee as soon as possible."
+            },
+            {
+                "event_title": "Running late",
+                "datetime_context": "Tomorrow",
+                "description": "User mentioned they are running late tomorrow."
+            },
+            {
+                "event_title": "Check the invoice",
+                "datetime_context": "None",
+                "description": "User requested to check the invoice."
+            },
+            {
+                "event_title": "Discuss the budget",
+                "datetime_context": "None",
+                "description": "User wants to discuss the budget."
+            },
+            {
+                "event_title": "Verify the roadmap",
+                "datetime_context": "None",
+                "description": "User requested to verify the roadmap."
+            },
+            {
+                "event_title": "Submit the API documentation",
+                "datetime_context": "None",
+                "description": "User needs to submit the API documentation."
+            },
+            {
+                "event_title": "Review the final deliverable",
+                "datetime_context": "None",
+                "description": "User wants to review the final deliverable."
+            },
+            {
+                "event_title": "Verify the Q4 report",
+                "datetime_context": "None",
+                "description": "User requested to verify the Q4 report."
+            },
+            {
+                "event_title": "Check the project proposal",
+                "datetime_context": "None",
+                "description": "User wants to check the project proposal."
+            },
+            {
+                "event_title": "Grab coffee later",
+                "datetime_context": "Later",
+                "description": "User suggested grabbing coffee later."
+            }
+        ],
         "analyzed_user": "Alex",
         "messages_analyzed": 50,
         "total_messages_sent": 264
     },
     {
-        "communication_style": "Casual & Direct",
-        "emotional_baseline": "Energetic and light-hearted",
-        "engagement_trend": "Consistent with bursts of enthusiasm",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Energetic and playful",
+        "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Uses informal greetings like 'Bro' and 'Bestie'",
-            "Frequently employs humor and emojis",
-            "Mixes casual conversation with work-related requests"
+            "Uses informal language",
+            "Frequent use of humor and emojis",
+            "Direct in requests and reminders"
         ],
-        "interaction_advice": "Use informal language and humor to connect. Incorporate casual greetings and be direct about your needs. Balance work-related messages with friendly check-ins or invitations to meet.",
+        "interaction_advice": "To communicate effectively with this user, maintain a casual tone, use informal greetings, and incorporate humor or emojis where appropriate. Be direct in your requests and responses, and don't hesitate to suggest meet-ups or casual interactions.",
+        "suggested_reminders": [
+            {
+                "event_title": "Submit the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to submit the Q4 report."
+            },
+            {
+                "event_title": "Send the final deliverable",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the final deliverable."
+            },
+            {
+                "event_title": "Check the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to check the Q4 report."
+            },
+            {
+                "event_title": "Update the meeting minutes",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to update the meeting minutes."
+            },
+            {
+                "event_title": "Approve the API documentation",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to approve the API documentation."
+            },
+            {
+                "event_title": "Review the invoice",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to review the invoice."
+            },
+            {
+                "event_title": "Review the project proposal",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to review the project proposal."
+            },
+            {
+                "event_title": "Review the client feedback",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to review the client feedback."
+            },
+            {
+                "event_title": "Send the invoice",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the invoice."
+            },
+            {
+                "event_title": "Discuss the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to discuss the Q4 report."
+            },
+            {
+                "event_title": "Approve the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to approve the Q4 report."
+            },
+            {
+                "event_title": "Reschedule the roadmap",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to reschedule the roadmap."
+            },
+            {
+                "event_title": "Reschedule the budget",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to reschedule the budget."
+            },
+            {
+                "event_title": "Send the budget",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the budget."
+            },
+            {
+                "event_title": "Finalize the API documentation",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to finalize the API documentation."
+            },
+            {
+                "event_title": "Finalize the final deliverable",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to finalize the final deliverable."
+            },
+            {
+                "event_title": "Submit the client feedback",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to submit the client feedback."
+            },
+            {
+                "event_title": "Check the API documentation",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to check the API documentation."
+            },
+            {
+                "event_title": "Verify the Q4 report",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to verify the Q4 report."
+            },
+            {
+                "event_title": "Submit the project proposal",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to submit the project proposal."
+            },
+            {
+                "event_title": "Finalize the meeting minutes",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to finalize the meeting minutes."
+            },
+            {
+                "event_title": "Update the Q4 report",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to update the Q4 report."
+            }
+        ],
         "analyzed_user": "Client",
         "messages_analyzed": 50,
         "total_messages_sent": 321
     },
     {
-        "communication_style": "Casual & Direct",
-        "emotional_baseline": "Energetic and slightly informal",
-        "engagement_trend": "Becoming more invested",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Energetic and slightly chaotic",
+        "engagement_trend": "Consistent with bursts of enthusiasm",
         "behavioral_flags": [
-            "Uses casual greetings like 'Hey' and 'Yo'",
-            "Frequently includes humor and emojis",
-            "Regularly follows up on tasks and meetings"
+            "Uses informal language",
+            "Frequent use of humor and emojis",
+            "Regularly checks in about availability"
         ],
-        "interaction_advice": "To communicate effectively with this user, keep your messages casual and friendly. Use informal greetings and incorporate humor or emojis when appropriate. Be direct about topics and tasks, but also show enthusiasm for social interactions.",
+        "interaction_advice": "To communicate effectively with this person, keep messages brief and casual. Use informal language and humor where appropriate. Be responsive to their frequent inquiries about availability and suggest specific times for meetings or catch-ups.",
+        "suggested_reminders": [
+            {
+                "event_title": "Discuss the client feedback",
+                "datetime_context": "2026-02-17T23:47:00+05:30",
+                "description": "Meeting to go over client feedback."
+            },
+            {
+                "event_title": "Update the roadmap",
+                "datetime_context": "2026-02-18T01:39:00+05:30",
+                "description": "Make necessary updates to the project roadmap."
+            },
+            {
+                "event_title": "Update the client feedback",
+                "datetime_context": "2026-02-18T02:45:00+05:30",
+                "description": "Revise the client feedback based on recent discussions."
+            },
+            {
+                "event_title": "Approve the budget",
+                "datetime_context": "2026-02-18T03:07:00+05:30",
+                "description": "Final approval needed for the budget."
+            },
+            {
+                "event_title": "Reschedule the final deliverable",
+                "datetime_context": "2026-02-18T04:29:00+05:30",
+                "description": "Adjust the timeline for the final deliverable."
+            },
+            {
+                "event_title": "Discuss the meeting minutes",
+                "datetime_context": "2026-02-18T07:41:00+05:30",
+                "description": "Review and discuss the minutes from the last meeting."
+            },
+            {
+                "event_title": "Reschedule the deployment logs",
+                "datetime_context": "2026-02-18T10:39:00+05:30",
+                "description": "Change the schedule for the deployment logs."
+            },
+            {
+                "event_title": "Review the Q4 report",
+                "datetime_context": "2026-02-18T18:47:00+05:30",
+                "description": "Go over the quarterly report for Q4."
+            },
+            {
+                "event_title": "Send the project proposal",
+                "datetime_context": "2026-02-18T22:47:00+05:30",
+                "description": "Submit the project proposal for review."
+            },
+            {
+                "event_title": "Verify the invoice",
+                "datetime_context": "2026-02-19T00:29:00+05:30",
+                "description": "Check the details of the invoice."
+            },
+            {
+                "event_title": "Review the deployment logs",
+                "datetime_context": "2026-02-19T01:23:00+05:30",
+                "description": "Examine the deployment logs for accuracy."
+            },
+            {
+                "event_title": "Finalize the project proposal",
+                "datetime_context": "2026-02-19T04:37:00+05:30",
+                "description": "Complete the project proposal for submission."
+            },
+            {
+                "event_title": "Reschedule the API documentation",
+                "datetime_context": "2026-02-19T07:37:00+05:30",
+                "description": "Adjust the timeline for the API documentation."
+            }
+        ],
         "analyzed_user": "John",
         "messages_analyzed": 50,
         "total_messages_sent": 293
@@ -60,67 +388,397 @@
         "emotional_baseline": "Excited and engaged",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Frequently uses informal language",
+            "Frequent use of informal language",
             "Uses humor and emojis",
-            "Regularly initiates plans or meetings"
+            "Regularly initiates plans"
         ],
-        "interaction_advice": "To communicate effectively with this user, keep your messages casual and direct. Use informal greetings like 'Yo' or 'Dude', and don't hesitate to include humor or emojis to match their tone. Be proactive in suggesting plans or meetings, as they seem to appreciate direct invitations.",
+        "interaction_advice": "To communicate effectively with this person, keep the tone casual and friendly. Use informal greetings and expressions of excitement. Be direct in requests and suggestions, and don't hesitate to use humor or emojis to match their style.",
+        "suggested_reminders": [
+            {
+                "event_title": "Grab coffee tonight",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Meet up for coffee as suggested."
+            },
+            {
+                "event_title": "Verify the final deliverable",
+                "datetime_context": "None",
+                "description": "Ensure the final deliverable is verified as requested."
+            },
+            {
+                "event_title": "Reschedule the final deliverable",
+                "datetime_context": "None",
+                "description": "Adjust the timeline for the final deliverable."
+            },
+            {
+                "event_title": "Discuss the roadmap",
+                "datetime_context": "None",
+                "description": "Engage in a discussion about the roadmap."
+            },
+            {
+                "event_title": "Send the meeting minutes",
+                "datetime_context": "None",
+                "description": "Submit the meeting minutes as requested."
+            },
+            {
+                "event_title": "Finalize the final deliverable",
+                "datetime_context": "None",
+                "description": "Complete the final deliverable."
+            },
+            {
+                "event_title": "Grab coffee soon",
+                "datetime_context": "None",
+                "description": "Plan to meet for coffee soon."
+            },
+            {
+                "event_title": "Review the roadmap",
+                "datetime_context": "None",
+                "description": "Check the roadmap as mentioned."
+            },
+            {
+                "event_title": "Reschedule the deployment logs",
+                "datetime_context": "None",
+                "description": "Adjust the schedule for the deployment logs."
+            }
+        ],
         "analyzed_user": "Manager",
         "messages_analyzed": 50,
         "total_messages_sent": 348
     },
     {
-        "communication_style": "Casual & directive",
-        "emotional_baseline": "Light-hearted and upbeat",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and humorous",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Frequent use of humor (lol \ud83d\ude02)",
-            "Uses informal greetings (Bestie, Dude, Hey there)",
-            "Direct requests and commands"
+            "Uses humor frequently",
+            "Frequent use of informal greetings",
+            "Regularly checks in on plans"
         ],
-        "interaction_advice": "To communicate effectively with this user, adopt a casual tone, use informal greetings, and incorporate humor where appropriate. Be direct in your requests and responses, and don't hesitate to use emojis to convey a light-hearted mood.",
+        "interaction_advice": "To communicate effectively with this person, maintain a casual tone, incorporate humor where appropriate, and be direct about plans and tasks. Use informal greetings like 'Hey' or 'Dude' to match their style.",
+        "suggested_reminders": [
+            {
+                "event_title": "Submit the roadmap",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to submit the roadmap as discussed."
+            },
+            {
+                "event_title": "Update the invoice",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to update the invoice."
+            },
+            {
+                "event_title": "Send the meeting minutes",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the meeting minutes."
+            },
+            {
+                "event_title": "Check the invoice",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to check the invoice."
+            },
+            {
+                "event_title": "Send the API documentation",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the API documentation."
+            },
+            {
+                "event_title": "Update the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to update the Q4 report."
+            },
+            {
+                "event_title": "Check the project proposal",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to check the project proposal."
+            },
+            {
+                "event_title": "Review the Q4 report",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to review the Q4 report."
+            },
+            {
+                "event_title": "Discuss the client feedback",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to discuss the client feedback."
+            },
+            {
+                "event_title": "Send the client feedback",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to send the client feedback."
+            },
+            {
+                "event_title": "Reschedule the API documentation",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to reschedule the API documentation."
+            },
+            {
+                "event_title": "Update the project proposal",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Reminder to update the project proposal."
+            },
+            {
+                "event_title": "Verify the roadmap",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to verify the roadmap."
+            },
+            {
+                "event_title": "Verify the meeting minutes",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to verify the meeting minutes."
+            },
+            {
+                "event_title": "Review the budget",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to review the budget."
+            },
+            {
+                "event_title": "Finalize the final deliverable",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Reminder to finalize the final deliverable."
+            }
+        ],
         "analyzed_user": "Mom",
         "messages_analyzed": 50,
         "total_messages_sent": 317
     },
     {
         "communication_style": "Casual & direct",
-        "emotional_baseline": "Light-hearted and upbeat",
+        "emotional_baseline": "Light-hearted and informal, with moments of urgency",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Uses informal language and slang",
-            "Frequently suggests social interactions",
-            "Expresses excitement or surprise often"
+            "Frequent use of informal language",
+            "Uses humor and emojis",
+            "Regularly checks in on tasks and deadlines"
         ],
-        "interaction_advice": "To communicate effectively with this person, use a casual tone and incorporate informal language or slang. Be direct in your requests, but also include friendly greetings or expressions of excitement. Suggest social meet-ups and respond with enthusiasm to maintain rapport.",
+        "interaction_advice": "To effectively communicate with this person, keep the tone casual and friendly. Use humor where appropriate, and be direct about tasks and deadlines. Incorporate informal greetings and emojis to match their style.",
+        "suggested_reminders": [
+            {
+                "event_title": "Discuss the Q4 report",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Follow up on the Q4 report discussion."
+            },
+            {
+                "event_title": "Review the roadmap",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Check the roadmap as discussed."
+            },
+            {
+                "event_title": "Grab coffee",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Meet for coffee as suggested."
+            },
+            {
+                "event_title": "Submit the invoice",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Ensure the invoice is submitted."
+            },
+            {
+                "event_title": "Finalize the client feedback",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Complete the client feedback finalization."
+            },
+            {
+                "event_title": "Discuss the budget",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Talk about the budget as planned."
+            },
+            {
+                "event_title": "Approve the project proposal",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Get the project proposal approved."
+            },
+            {
+                "event_title": "Check the project proposal",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Review the project proposal."
+            },
+            {
+                "event_title": "Discuss the deployment logs",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Follow up on the deployment logs."
+            },
+            {
+                "event_title": "Reschedule the Q4 report",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Make sure to reschedule the Q4 report discussion."
+            },
+            {
+                "event_title": "Reschedule the meeting minutes",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Adjust the meeting minutes schedule."
+            }
+        ],
         "analyzed_user": "Rahul",
         "messages_analyzed": 50,
         "total_messages_sent": 311
     },
     {
-        "communication_style": "Casual & Direct",
-        "emotional_baseline": "Light-hearted and friendly with moments of urgency",
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and humorous, with moments of urgency",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Uses informal greetings like 'Bro' and 'Bestie'",
-            "Frequently includes humor and emojis",
-            "Mixes casual conversation with task-oriented messages"
+            "Uses casual language and slang",
+            "Frequent use of humor and emojis",
+            "Direct in requests and reminders"
         ],
-        "interaction_advice": "To effectively communicate with this person, use a friendly and informal tone. Incorporate humor and emojis where appropriate, and balance casual conversation with direct requests or questions. Be concise but clear, and don't hesitate to use terms of endearment like 'Bro' or 'Bestie' to foster rapport.",
+        "interaction_advice": "To communicate effectively with this person, maintain a casual tone, use humor where appropriate, and be direct in your requests. Acknowledge their informal style and respond promptly to maintain engagement.",
+        "suggested_reminders": [
+            {
+                "event_title": "Grab coffee with Bestie",
+                "datetime_context": "2026-02-19T00:00:00+05:30",
+                "description": "Meet up for coffee as discussed."
+            },
+            {
+                "event_title": "Review the API documentation",
+                "datetime_context": "None",
+                "description": "Reminder to review the API documentation."
+            },
+            {
+                "event_title": "Verify the project proposal",
+                "datetime_context": "None",
+                "description": "Reminder to verify the project proposal."
+            },
+            {
+                "event_title": "Approve the invoice",
+                "datetime_context": "None",
+                "description": "Reminder to approve the invoice."
+            },
+            {
+                "event_title": "Reschedule the roadmap",
+                "datetime_context": "None",
+                "description": "Reminder to reschedule the roadmap."
+            },
+            {
+                "event_title": "Review the client feedback",
+                "datetime_context": "None",
+                "description": "Reminder to review the client feedback."
+            },
+            {
+                "event_title": "Review the Q4 report",
+                "datetime_context": "None",
+                "description": "Reminder to review the Q4 report."
+            },
+            {
+                "event_title": "Finalize the roadmap",
+                "datetime_context": "None",
+                "description": "Reminder to finalize the roadmap."
+            },
+            {
+                "event_title": "Submit the invoice",
+                "datetime_context": "None",
+                "description": "Reminder to submit the invoice."
+            },
+            {
+                "event_title": "Check the budget",
+                "datetime_context": "None",
+                "description": "Reminder to check the budget."
+            }
+        ],
         "analyzed_user": "Sarah",
         "messages_analyzed": 50,
         "total_messages_sent": 292
     },
     {
         "communication_style": "Casual & direct",
-        "emotional_baseline": "Light-hearted and informal, with moments of urgency",
+        "emotional_baseline": "Light-hearted and slightly chaotic",
         "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Uses casual language",
-            "Frequent use of humor (e.g., 'lol', emojis)",
-            "Direct requests and questions"
+            "Uses informal language",
+            "Frequent use of humor and emojis",
+            "Regularly requests approvals and checks"
         ],
-        "interaction_advice": "To communicate effectively with this user, adopt a casual tone, use humor when appropriate, and be direct in your requests. Incorporate emojis to match their light-hearted style and respond promptly to maintain engagement.",
+        "interaction_advice": "To communicate effectively with this person, keep the tone casual and friendly. Use informal greetings and be direct in your requests. Incorporate humor or emojis to match their light-hearted style, and be prepared for a fast-paced conversation.",
+        "suggested_reminders": [
+            {
+                "event_title": "Submit the final deliverable",
+                "datetime_context": "2026-02-18T00:00:00+05:30",
+                "description": "Final deliverable needs to be submitted."
+            },
+            {
+                "event_title": "Approve the meeting minutes",
+                "datetime_context": "None",
+                "description": "Meeting minutes require approval."
+            },
+            {
+                "event_title": "Check the project proposal",
+                "datetime_context": "None",
+                "description": "Review the project proposal."
+            },
+            {
+                "event_title": "Send the meeting minutes",
+                "datetime_context": "None",
+                "description": "Meeting minutes need to be sent."
+            },
+            {
+                "event_title": "Verify the API documentation",
+                "datetime_context": "None",
+                "description": "API documentation needs verification."
+            },
+            {
+                "event_title": "Check the roadmap",
+                "datetime_context": "None",
+                "description": "Roadmap needs to be checked."
+            },
+            {
+                "event_title": "Verify the invoice",
+                "datetime_context": "None",
+                "description": "Invoice needs verification."
+            },
+            {
+                "event_title": "Submit the invoice",
+                "datetime_context": "None",
+                "description": "Invoice needs to be submitted."
+            },
+            {
+                "event_title": "Review the API documentation",
+                "datetime_context": "None",
+                "description": "API documentation needs review."
+            },
+            {
+                "event_title": "Review the deployment logs",
+                "datetime_context": "None",
+                "description": "Deployment logs need to be reviewed."
+            },
+            {
+                "event_title": "Discuss the project proposal",
+                "datetime_context": "None",
+                "description": "Project proposal needs discussion."
+            },
+            {
+                "event_title": "Submit the API documentation",
+                "datetime_context": "None",
+                "description": "API documentation needs to be submitted."
+            },
+            {
+                "event_title": "Finalize the Q4 report",
+                "datetime_context": "None",
+                "description": "Q4 report needs to be finalized."
+            },
+            {
+                "event_title": "Submit the deployment logs",
+                "datetime_context": "None",
+                "description": "Deployment logs need to be submitted."
+            },
+            {
+                "event_title": "Submit the roadmap",
+                "datetime_context": "None",
+                "description": "Roadmap needs to be submitted."
+            },
+            {
+                "event_title": "Reschedule the meeting minutes",
+                "datetime_context": "None",
+                "description": "Meeting minutes need to be rescheduled."
+            },
+            {
+                "event_title": "Reschedule the deployment logs",
+                "datetime_context": "None",
+                "description": "Deployment logs need to be rescheduled."
+            },
+            {
+                "event_title": "Finalize the API documentation",
+                "datetime_context": "None",
+                "description": "API documentation needs to be finalized."
+            }
+        ],
         "analyzed_user": "Sneha",
         "messages_analyzed": 50,
         "total_messages_sent": 306
