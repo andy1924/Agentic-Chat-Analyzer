@@ -1,10 +1,12 @@
 import os
 import asyncio
+import json
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 # ---------------------------------------------------------
 # 1. ENVIRONMENT & OBSERVABILITY
 # ---------------------------------------------------------
@@ -14,17 +16,23 @@ load_dotenv()
 # to see exactly what went into the LLM and what came out.
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = "RelateAI_Production"
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
 
 
 # ---------------------------------------------------------
-# 2. SCHEMA DEFINITION
+# 2. UPDATED SCHEMA: INDIVIDUAL BEHAVIORAL PROFILE
 # ---------------------------------------------------------
-class RelationshipAnalysis(BaseModel):
-    tone: str = Field(description="The current overall tone of the conversation.")
-    relationship_type: str = Field(description="Classification of the relationship.")
-    emotional_drift: str = Field(description="How the emotion has changed from beginning to end.")
-    risk_of_ghosting: str = Field(description="Risk as: Low, Medium, or High, with a 1-sentence reason.")
-    suggested_action: str = Field(description="One specific, actionable piece of advice for what to message next.")
+class IndividualProfile(BaseModel):
+    communication_style: str = Field(
+        description="The user's core texting style (e.g., Direct & analytical, enthusiastic, passive, brief).")
+    emotional_baseline: str = Field(
+        description="The general emotional state or mood of this user across these messages.")
+    engagement_trend: str = Field(
+        description="How their effort or length of messages is trending over time (e.g., Becoming more invested, pulling away, consistent).")
+    behavioral_flags: list[str] = Field(
+        description="A list of 1-3 specific communication quirks, green flags, or red flags (e.g., 'Uses demanding language', 'Highly supportive').")
+    interaction_advice: str = Field(
+        description="Actionable advice on how others should communicate with this person to get the best response.")
 
 
 # ---------------------------------------------------------
@@ -33,21 +41,21 @@ class RelationshipAnalysis(BaseModel):
 class BehaviorAnalyzer:
     def __init__(self):
         system_prompt = """
-        You are an expert behavioral analyst reading a chat history.
-        Your job is to analyze the psychological subtext, tone, and emotional trajectory of the conversation.
+        You are an expert behavioral and linguistic analyst.
+        Your job is to profile an individual's communication style based purely on a timeline of their isolated messages.
 
         CRITICAL RULES:
-        - Focus ONLY on context, reasoning, and behavioral suggestions.
+        - You are ONLY seeing messages from ONE person. You do not see the replies.
+        - Focus on psychological profiling, tone, vocabulary, and emotional consistency.
         - Do NOT perform math, do NOT count messages, and do NOT calculate response times. 
-        - Analyze the dynamic specifically from the perspective of helping 'User A'.
+        - Provide highly actionable advice on how someone else should adapt their communication to match this user's style.
         """
 
         self.prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
-            ("human", "Chat Log:\n{chat_history}")
+            ("human", "User's Message Log:\n{chat_history}")
         ])
 
-        # RELIABILITY Upgrade: Added max_retries to handle API network blips
         self.llm = ChatOpenAI(
             model="gpt-4o-mini",
             temperature=0.2,
@@ -55,46 +63,102 @@ class BehaviorAnalyzer:
             timeout=15
         )
 
-        self.structured_llm = self.llm.with_structured_output(RelationshipAnalysis)
+        # Make sure to update the structured output target here!
+        self.structured_llm = self.llm.with_structured_output(IndividualProfile)
         self.chain = self.prompt | self.structured_llm
 
-    # ASYNC Upgrade: Prevents blocking the main thread (crucial for UIs like Streamlit)
     async def analyze_chat_async(self, formatted_chat: str) -> dict:
         try:
-            # ainvoke() is the asynchronous version of invoke()
             result = await self.chain.ainvoke({"chat_history": formatted_chat})
-
-            # Return a clean Python dictionary so the UI doesn't have to deal with Pydantic objects
             return result.model_dump()
 
         except Exception as e:
-            # ERROR HANDLING Upgrade: Never crash the frontend if the AI fails
-            print(f"!Error during AI analysis: {e}")
+            print(f"Error during AI analysis: {e}")
             return {
-                "tone": "Error analyzing tone.",
-                "relationship_type": "Unknown",
-                "emotional_drift": "Could not compute.",
-                "risk_of_ghosting": "Unknown",
-                "suggested_action": "System error. Please try again later."
+                "communication_style": "Error analyzing style.",
+                "emotional_baseline": "Unknown",
+                "engagement_trend": "Unknown",
+                "behavioral_flags": ["System error."],
+                "interaction_advice": "Please try again later."
             }
 
 
-# ---------------------------------------------------------
-# 4. EXECUTION (For testing standalone)
-# ---------------------------------------------------------
-if __name__ == "__main__":
-    import json
+async def process_and_save_real_data(input_file_path: str, output_file_name: str):
+    save_directory = "mainData"
+    os.makedirs(save_directory, exist_ok=True)
+    output_path = os.path.join(save_directory, output_file_name)
 
-    # Load the mock data
-    with open("mockData//mockData_Arnav.json", "r") as f:
-        chat_data = json.load(f)
+    try:
+        with open(input_file_path, "r", encoding="utf-8") as f:
+            real_chat_data = json.load(f)
+    except FileNotFoundError:
+        print(f"❌ Error: Could not find {input_file_path}.")
+        return
 
-    formatted_chat = "\n".join([f"{msg['timestamp']} | {msg['sender']}: {msg['text']}" for msg in chat_data])
+    # Normalize the data structure
+    if isinstance(real_chat_data, dict):
+        if "Self" in real_chat_data:
+            real_chat_data = real_chat_data["Self"]
+        elif "messages" in real_chat_data:
+            real_chat_data = real_chat_data["messages"]
+        elif "data" in real_chat_data:
+            real_chat_data = real_chat_data["data"]
+        else:
+            real_chat_data = [real_chat_data]
 
-    print("Analyzing conversation asynchronously...")
+    # --- 🛠️ THE FIX: Group messages by User/Sender ---
+    print("🔄 Grouping messages by sender...")
 
-    # Run the async function
+    grouped_messages = {}
+    for msg in real_chat_data:
+        sender = msg.get('sender', 'Unknown')
+
+        # If we haven't seen this sender yet, create a new list for them
+        if sender not in grouped_messages:
+            grouped_messages[sender] = []
+
+        # Add their message to their specific list
+        grouped_messages[sender].append(f"[{msg['timestamp']}] {msg['message']}")
+
+    print(f"🧠 Found {len(grouped_messages)} unique users. Building behavioral profiles...")
+
     analyzer = BehaviorAnalyzer()
-    result = asyncio.run(analyzer.analyze_chat_async(formatted_chat))
+    all_user_profiles = []
 
-    print(json.dumps(result, indent=2))
+    # Loop through our grouped dictionary
+    for user, messages in grouped_messages.items():
+        print(f"Processing analysis for: {user}...")
+
+        # Combine all of this specific user's messages into one text block
+        # We slice the last 50 messages ([-50:]) to avoid blowing up the token limit
+        user_chat_block = "\n".join(messages[-50:])
+
+        # Analyze this user's isolated behavior
+        ai_insight = await analyzer.analyze_chat_async(user_chat_block)
+
+        # Inject the user's name and stats into the final JSON output
+        ai_insight["analyzed_user"] = user
+        ai_insight["messages_analyzed"] = len(messages[-50:])
+        ai_insight["total_messages_sent"] = len(messages)
+
+        all_user_profiles.append(ai_insight)
+
+        # Hackathon safety: Sleep for 1 second to avoid OpenAI API rate limits
+        await asyncio.sleep(1)
+    # ----------------------------------------------------------
+
+    # Save the array of user profiles to the JSON file
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(all_user_profiles, f, indent=4)
+
+    print(f"✅ Success! {len(all_user_profiles)} user profiles securely saved to: {output_path}")
+
+if __name__ == "__main__":
+    # Point this to whatever your real data file is named
+    INPUT_FILE = "mainData//timelines.json"
+
+    # What you want to name the saved output
+    OUTPUT_FILE = "analyzedResults.json"
+
+    # Execute the async pipeline
+    asyncio.run(process_and_save_real_data(INPUT_FILE, OUTPUT_FILE))
