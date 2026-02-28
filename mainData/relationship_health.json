@@ -1,0 +1,34 @@
+{
+  "Alex": {
+    "health_score": 31.72,
+    "risk_level": "Critical"
+  },
+  "Client": {
+    "health_score": 62.27,
+    "risk_level": "Stable"
+  },
+  "John": {
+    "health_score": 57.39,
+    "risk_level": "Stable"
+  },
+  "Manager": {
+    "health_score": 72.25,
+    "risk_level": "Stable"
+  },
+  "Mom": {
+    "health_score": 64.32,
+    "risk_level": "Stable"
+  },
+  "Rahul": {
+    "health_score": 69.72,
+    "risk_level": "Stable"
+  },
+  "Sarah": {
+    "health_score": 67.59,
+    "risk_level": "Stable"
+  },
+  "Sneha": {
+    "health_score": 57.56,
+    "risk_level": "Stable"
+  }
+}
