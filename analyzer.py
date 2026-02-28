@@ -88,6 +88,7 @@ async def process_and_save_real_data(input_file_path: str, output_file_name: str
     os.makedirs(save_directory, exist_ok=True)
     output_path = os.path.join(save_directory, output_file_name)
 
+    # 2. Load your real JSON data
     try:
         with open(input_file_path, "r", encoding="utf-8") as f:
             real_chat_data = json.load(f)
@@ -95,30 +96,39 @@ async def process_and_save_real_data(input_file_path: str, output_file_name: str
         print(f"❌ Error: Could not find {input_file_path}.")
         return
 
-    # Normalize the data structure
+    # --- 🛠️ THE NEW FIX: Flatten the conversation dictionary ---
+    print("🔄 Extracting messages from conversations...")
+    flat_messages = []
+
     if isinstance(real_chat_data, dict):
-        if "Self" in real_chat_data:
-            real_chat_data = real_chat_data["Self"]
-        elif "messages" in real_chat_data:
-            real_chat_data = real_chat_data["messages"]
-        elif "data" in real_chat_data:
-            real_chat_data = real_chat_data["data"]
-        else:
-            real_chat_data = [real_chat_data]
+        # Loop through keys like "Alex", "Client", etc.
+        for conversation_name, message_list in real_chat_data.items():
+            if isinstance(message_list, list):
+                # Add all messages from this conversation to our master list
+                flat_messages.extend(message_list)
+    elif isinstance(real_chat_data, list):
+        flat_messages = real_chat_data
 
-    # --- 🛠️ THE FIX: Group messages by User/Sender ---
+    if not flat_messages:
+        print("❌ Error: No valid messages found to process.")
+        return
+    # -----------------------------------------------------------
+
+    # --- Group messages by User/Sender ---
     print("🔄 Grouping messages by sender...")
-
     grouped_messages = {}
-    for msg in real_chat_data:
-        sender = msg.get('sender', 'Unknown')
 
-        # If we haven't seen this sender yet, create a new list for them
+    # Notice we are looping over our new 'flat_messages' list now
+    for msg in flat_messages:
+        # Using .get() makes it crash-proof just in case a message is missing a key
+        sender = msg.get('sender', 'Unknown')
+        timestamp = msg.get('timestamp', 'Unknown Time')
+        text = msg.get('message', '')
+
         if sender not in grouped_messages:
             grouped_messages[sender] = []
 
-        # Add their message to their specific list
-        grouped_messages[sender].append(f"[{msg['timestamp']}] {msg['message']}")
+        grouped_messages[sender].append(f"[{timestamp}] {text}")
 
     print(f"🧠 Found {len(grouped_messages)} unique users. Building behavioral profiles...")
 
@@ -151,7 +161,7 @@ async def process_and_save_real_data(input_file_path: str, output_file_name: str
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(all_user_profiles, f, indent=4)
 
-    print(f"✅ Success! {len(all_user_profiles)} user profiles securely saved to: {output_path}")
+    print(f"Success! {len(all_user_profiles)} user profiles securely saved to: {output_path}")
 
 if __name__ == "__main__":
     # Point this to whatever your real data file is named

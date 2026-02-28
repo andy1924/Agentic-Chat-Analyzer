@@ -1,16 +1,128 @@
 [
     {
-        "communication_style": "Direct & collaborative",
-        "emotional_baseline": "Generally positive and engaged, with moments of humor and casualness.",
-        "engagement_trend": "Consistent with occasional spikes in enthusiasm and personal connection.",
+        "communication_style": "Casual & directive",
+        "emotional_baseline": "Light-hearted and upbeat",
+        "engagement_trend": "Consistent",
         "behavioral_flags": [
-            "Frequent use of casual language and emojis",
-            "Regularly expresses gratitude and appreciation",
-            "Balances professional inquiries with social invitations"
+            "Uses casual language and slang",
+            "Frequently employs humor (e.g., 'lol \ud83d\ude02')",
+            "Regularly checks in on tasks and deadlines"
         ],
-        "interaction_advice": "To match this user's style, incorporate a mix of direct questions and casual conversation. Use humor and emojis where appropriate, and express appreciation for their efforts. Be clear and concise in professional matters, while also inviting them to social activities.",
+        "interaction_advice": "To communicate effectively with this person, use a casual tone and incorporate humor where appropriate. Be direct in your requests and provide clear timelines. Acknowledge their casual language style by using similar phrasing and emojis to create rapport.",
         "analyzed_user": "You",
         "messages_analyzed": 50,
-        "total_messages_sent": 642
+        "total_messages_sent": 2548
+    },
+    {
+        "communication_style": "Casual & Direct",
+        "emotional_baseline": "Light-hearted and friendly, with moments of urgency",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Frequently uses casual greetings like 'Bro' and 'Yo'",
+            "Incorporates humor and emojis to lighten the tone",
+            "Uses direct requests and commands, often related to work tasks"
+        ],
+        "interaction_advice": "To communicate effectively with this person, use casual language and humor. Incorporate friendly greetings and emojis to match their tone. Be direct in your requests, and don't hesitate to suggest meetups or casual conversations.",
+        "analyzed_user": "Alex",
+        "messages_analyzed": 50,
+        "total_messages_sent": 264
+    },
+    {
+        "communication_style": "Casual & Direct",
+        "emotional_baseline": "Energetic and light-hearted",
+        "engagement_trend": "Consistent with bursts of enthusiasm",
+        "behavioral_flags": [
+            "Uses informal greetings like 'Bro' and 'Bestie'",
+            "Frequently employs humor and emojis",
+            "Mixes casual conversation with work-related requests"
+        ],
+        "interaction_advice": "Use informal language and humor to connect. Incorporate casual greetings and be direct about your needs. Balance work-related messages with friendly check-ins or invitations to meet.",
+        "analyzed_user": "Client",
+        "messages_analyzed": 50,
+        "total_messages_sent": 321
+    },
+    {
+        "communication_style": "Casual & Direct",
+        "emotional_baseline": "Energetic and slightly informal",
+        "engagement_trend": "Becoming more invested",
+        "behavioral_flags": [
+            "Uses casual greetings like 'Hey' and 'Yo'",
+            "Frequently includes humor and emojis",
+            "Regularly follows up on tasks and meetings"
+        ],
+        "interaction_advice": "To communicate effectively with this user, keep your messages casual and friendly. Use informal greetings and incorporate humor or emojis when appropriate. Be direct about topics and tasks, but also show enthusiasm for social interactions.",
+        "analyzed_user": "John",
+        "messages_analyzed": 50,
+        "total_messages_sent": 293
+    },
+    {
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Excited and engaged",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Frequently uses informal language",
+            "Uses humor and emojis",
+            "Regularly initiates plans or meetings"
+        ],
+        "interaction_advice": "To communicate effectively with this user, keep your messages casual and direct. Use informal greetings like 'Yo' or 'Dude', and don't hesitate to include humor or emojis to match their tone. Be proactive in suggesting plans or meetings, as they seem to appreciate direct invitations.",
+        "analyzed_user": "Manager",
+        "messages_analyzed": 50,
+        "total_messages_sent": 348
+    },
+    {
+        "communication_style": "Casual & directive",
+        "emotional_baseline": "Light-hearted and upbeat",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Frequent use of humor (lol \ud83d\ude02)",
+            "Uses informal greetings (Bestie, Dude, Hey there)",
+            "Direct requests and commands"
+        ],
+        "interaction_advice": "To communicate effectively with this user, adopt a casual tone, use informal greetings, and incorporate humor where appropriate. Be direct in your requests and responses, and don't hesitate to use emojis to convey a light-hearted mood.",
+        "analyzed_user": "Mom",
+        "messages_analyzed": 50,
+        "total_messages_sent": 317
+    },
+    {
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and upbeat",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Uses informal language and slang",
+            "Frequently suggests social interactions",
+            "Expresses excitement or surprise often"
+        ],
+        "interaction_advice": "To communicate effectively with this person, use a casual tone and incorporate informal language or slang. Be direct in your requests, but also include friendly greetings or expressions of excitement. Suggest social meet-ups and respond with enthusiasm to maintain rapport.",
+        "analyzed_user": "Rahul",
+        "messages_analyzed": 50,
+        "total_messages_sent": 311
+    },
+    {
+        "communication_style": "Casual & Direct",
+        "emotional_baseline": "Light-hearted and friendly with moments of urgency",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Uses informal greetings like 'Bro' and 'Bestie'",
+            "Frequently includes humor and emojis",
+            "Mixes casual conversation with task-oriented messages"
+        ],
+        "interaction_advice": "To effectively communicate with this person, use a friendly and informal tone. Incorporate humor and emojis where appropriate, and balance casual conversation with direct requests or questions. Be concise but clear, and don't hesitate to use terms of endearment like 'Bro' or 'Bestie' to foster rapport.",
+        "analyzed_user": "Sarah",
+        "messages_analyzed": 50,
+        "total_messages_sent": 292
+    },
+    {
+        "communication_style": "Casual & direct",
+        "emotional_baseline": "Light-hearted and informal, with moments of urgency",
+        "engagement_trend": "Consistent",
+        "behavioral_flags": [
+            "Uses casual language",
+            "Frequent use of humor (e.g., 'lol', emojis)",
+            "Direct requests and questions"
+        ],
+        "interaction_advice": "To communicate effectively with this user, adopt a casual tone, use humor when appropriate, and be direct in your requests. Incorporate emojis to match their light-hearted style and respond promptly to maintain engagement.",
+        "analyzed_user": "Sneha",
+        "messages_analyzed": 50,
+        "total_messages_sent": 306
     }
 ]
