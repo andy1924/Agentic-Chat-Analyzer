@@ -9,31 +9,16 @@ INPUT_FILE_PATH = "mainData/processed_chat_dataset.csv"
 OUTPUT_FILE_PATH = "mainData/relationship_health.json"
 
 
-def normalize(value, min_val, max_val):
-    if max_val == min_val:
-        return 0
-    return (value - min_val) / (max_val - min_val)
-
-
 def calculate_scores(df):
-
     results = {}
 
+    # Ensure timestamp is datetime
     df["timestamp"] = pd.to_datetime(df["timestamp"])
 
-    # Dataset-wide stats
+    # Global dataset metrics for imputation (fallback for missing values)
     dataset_max_date = df["timestamp"].max()
-    dataset_min_date = df["timestamp"].min()
-
-    global_avg_word_count = df["word_count"].mean()
-    global_median_inactivity = df["inactivity_hours"].median()
-
-    # For normalization
-    recency_values = []
-    freq_values = []
-    inactivity_values = []
-    engagement_values = []
-    balance_values = []
+    global_inactivity_median = df["inactivity_hours"].median()
+    global_word_median = df["word_count"].median()
 
     contact_metrics = {}
 
@@ -41,96 +26,135 @@ def calculate_scores(df):
 
         group = group.sort_values("timestamp")
 
-        # RECENCY
+        # -----------------------------------
+        # RECENCY (Exponential decay)
+        # Prevents old relationships from retaining high scores
+        # -----------------------------------
         last_time = group["timestamp"].max()
         days_since_last = (dataset_max_date - last_time).days
+        # Decay factor: loses ~63% power after 30 days
+        recency_score = np.exp(-days_since_last / 30.0)
 
-        # FREQUENCY
-        active_days = (group["timestamp"].max() - group["timestamp"].min()).days + 1
-        total_msgs = len(group)
-        msgs_per_day = total_msgs / max(active_days, 1)
+        # -----------------------------------
+        # FREQUENCY (Log-scaled messages per day)
+        # Dampens extreme outliers (e.g. 500 msgs/day) while preserving magnitude
+        # -----------------------------------
+        active_days = max((group["timestamp"].max() - group["timestamp"].min()).days + 1, 1)
+        msgs_per_day = len(group) / active_days
+        freq_score = np.log1p(msgs_per_day)
 
-        # RESPONSIVENESS
-        avg_inactivity = group["inactivity_hours"].mean()
+        # -----------------------------------
+        # RESPONSIVENESS (Inverse scaling of median inactivity)
+        # Impute missing with global median to avoid arbitrary fallback skew
+        # -----------------------------------
+        inactivity = group["inactivity_hours"].median()
+        if pd.isnull(inactivity):
+            inactivity = global_inactivity_median
 
-        # ENGAGEMENT
+        # Closer to 0 inactivity -> closer to 1 score
+        resp_score = 1.0 / (1.0 + inactivity)
+
+        # -----------------------------------
+        # ENGAGEMENT (Log-scaled word count)
+        # Impute missing with global median
+        # -----------------------------------
         avg_word_count = group["word_count"].mean()
+        if pd.isnull(avg_word_count):
+            avg_word_count = global_word_median
 
-        # BALANCE
-        user_msgs = group[group["is_user_sender"] == True].shape[0]
-        other_msgs = group[group["is_user_sender"] == False].shape[0]
+        eng_score = np.log1p(avg_word_count)
+
+        # -----------------------------------
+        # BALANCE (Message symmetry ratio)
+        # 1.0 is perfectly balanced, 0.0 is completely one-sided
+        # -----------------------------------
+        user_msgs = (group["is_user_sender"] == True).sum()
+        other_msgs = (group["is_user_sender"] == False).sum()
 
         if user_msgs + other_msgs == 0:
-            balance_ratio = 0
+            bal_score = 0.0
         else:
-            balance_ratio = min(user_msgs, other_msgs) / max(user_msgs, other_msgs)
+            bal_score = min(user_msgs, other_msgs) / max(user_msgs, other_msgs)
 
         contact_metrics[contact] = {
-            "days_since_last": days_since_last,
-            "msgs_per_day": msgs_per_day,
-            "avg_inactivity": avg_inactivity,
-            "avg_word_count": avg_word_count,
-            "balance_ratio": balance_ratio
+            "rec": recency_score,
+            "freq": freq_score,
+            "resp": resp_score,
+            "eng": eng_score,
+            "bal": bal_score
         }
 
-        recency_values.append(days_since_last)
-        freq_values.append(msgs_per_day)
-        inactivity_values.append(avg_inactivity)
-        engagement_values.append(avg_word_count)
-        balance_values.append(balance_ratio)
+    # -----------------------------------
+    # NORMALIZATION (0-1 min-max scaling ON TRANSFORMED METRICS)
+    # This prepares the metrics to be weighted correctly without ranking compression
+    # -----------------------------------
+    metrics_df = pd.DataFrame.from_dict(contact_metrics, orient="index")
 
-    # Normalization ranges
-    rec_min, rec_max = min(recency_values), max(recency_values)
-    freq_min, freq_max = min(freq_values), max(freq_values)
-    inact_min, inact_max = min(inactivity_values), max(inactivity_values)
-    eng_min, eng_max = min(engagement_values), max(engagement_values)
-    bal_min, bal_max = min(balance_values), max(balance_values)
+    # Handle edge case where max == min by filling NaN with 0 after division
+    metrics_df = (metrics_df - metrics_df.min()) / (metrics_df.max() - metrics_df.min())
+    metrics_df = metrics_df.fillna(0.0)
 
-    # Calculate normalized health score
-    for contact, metrics in contact_metrics.items():
+    # -----------------------------------
+    # WEIGHTING
+    # Weights sum to 1.0
+    # -----------------------------------
+    weights = {
+        "rec": 0.30,  # Recency
+        "freq": 0.20,  # Frequency
+        "resp": 0.15,  # Responsiveness
+        "eng": 0.15,  # Engagement
+        "bal": 0.20  # Balance symmetry
+    }
 
-        rec_score = 1 - normalize(metrics["days_since_last"], rec_min, rec_max)
-        freq_score = normalize(metrics["msgs_per_day"], freq_min, freq_max)
-        resp_score = 1 - normalize(metrics["avg_inactivity"], inact_min, inact_max)
-        eng_score = normalize(metrics["avg_word_count"], eng_min, eng_max)
-        bal_score = normalize(metrics["balance_ratio"], bal_min, bal_max)
+    # Calculate final health score on a 0-100 scale
+    metrics_df["health_score"] = (
+                                         metrics_df["rec"] * weights["rec"] +
+                                         metrics_df["freq"] * weights["freq"] +
+                                         metrics_df["resp"] * weights["resp"] +
+                                         metrics_df["eng"] * weights["eng"] +
+                                         metrics_df["bal"] * weights["bal"]
+                                 ) * 100.0
 
-        health_score = np.mean([
-            rec_score,
-            freq_score,
-            resp_score,
-            eng_score,
-            bal_score
-        ]) * 100
+    # -----------------------------------
+    # RISK CLASSIFICATION (Percentile-based purely on FINAL score)
+    # This ensures relative statistical consistency
+    # -----------------------------------
+    final_score_percentiles = metrics_df["health_score"].rank(pct=True)
 
-        # Risk classification based on dataset percentile
-        if health_score >= 75:
+    for contact in metrics_df.index:
+        score = metrics_df.at[contact, "health_score"]
+        p = final_score_percentiles[contact]
+
+        # Use percentiles to determine brackets based on aggregate population
+        if p >= 0.75:
             risk = "Strong"
-        elif health_score >= 55:
+        elif p >= 0.50:
             risk = "Stable"
-        elif health_score >= 35:
+        elif p >= 0.30:
             risk = "At Risk"
         else:
             risk = "Critical"
 
         results[contact] = {
-            "health_score": round(health_score, 2),
+            "health_score": round(score, 2),
             "risk_level": risk
         }
 
     return results
 
 
+# -----------------------------------
+# MAIN EXECUTION
+# -----------------------------------
 if __name__ == "__main__":
-
     print("📂 Loading processed dataset...")
     df = pd.read_csv(INPUT_FILE_PATH)
 
-    print("🧠 Computing data-driven relationship health...")
+    print("🧠 Computing mathematically-corrected relationship health scores...")
     results = calculate_scores(df)
 
     with open(OUTPUT_FILE_PATH, "w") as f:
         json.dump(results, f, indent=2)
 
     print("🚀 Relationship health scoring complete.")
-    print("Saved to mainData/relationship_health.json")
+    print(f"Saved to {OUTPUT_FILE_PATH}")
