@@ -1,83 +1,122 @@
-import streamlit as st
 import pandas as pd
 from datetime import timedelta
-import os
-
-# ==========================================
-# LOAD CSV DATA
-# ==========================================
-
-def load_data():
-
-    file_path = os.path.join("mainData", "whatsapp_unique_chats_5000.csv")
-
-    if not os.path.exists(file_path):
-        st.error("CSV file not found inside mainData/")
-        return pd.DataFrame()
-
-    df = pd.read_csv(file_path)
-
-    # Combine date + time (DD/MM/YYYY + 12-hour time)
-    df['timestamp'] = pd.to_datetime(
-        df['date'] + " " + df['time'],
-        format="%d/%m/%Y %I:%M %p",
-        errors='coerce'
-    )
-
-    df = df.dropna(subset=['timestamp'])
-    df = df.sort_values('timestamp').reset_index(drop=True)
-
-    return df
+from relationCalculator import calculate_scores
 
 
 # ==========================================
-# DETECT MAIN USER
+# DATA PROCESSING BACKEND
 # ==========================================
+
+def load_data(file_obj):
+    """
+    Loads and validates the chat dataset.
+    pure data processing, no UI elements.
+    """
+    try:
+        if file_obj.name.endswith('.csv'):
+            df = pd.read_csv(file_obj)
+        else:
+            raise ValueError("Unsupported format. Please upload a CSV file.")
+
+        required_cols = ['date', 'time', 'sender', 'message']
+        if not all(col in df.columns for col in required_cols):
+            raise ValueError(f"Missing required columns. Found: {df.columns.tolist()}")
+
+        # Combine date + time
+        df['timestamp'] = pd.to_datetime(
+            df['date'] + " " + df['time'],
+            format="%d/%m/%Y %I:%M %p",
+            errors='coerce'
+        )
+
+        df = df.dropna(subset=['timestamp'])
+        df = df.sort_values('timestamp').reset_index(drop=True)
+        return df
+
+    except Exception as e:
+        raise ValueError(f"Error parsing file: {str(e)}")
+
 
 def detect_main_user(df):
-
-    # If "You" exists, use it directly
+    """Identifies the primary user of the chat export."""
     if "You" in df['sender'].unique():
         return "You"
 
     # Fallback: highest frequency participant
-    counts = df['sender'].value_counts() + df['receiver'].value_counts()
-    return counts.idxmax()
+    if 'receiver' in df.columns:
+        counts = df['sender'].value_counts() + df['receiver'].value_counts()
+        return counts.idxmax()
+    else:
+        return df['sender'].value_counts().idxmax()
 
-
-# ==========================================
-# BUILD CONTACT COLUMN
-# ==========================================
 
 def add_contact_column(df, main_user):
-
-    df['contact'] = df.apply(
-        lambda row: row['receiver'] if row['sender'] == main_user else row['sender'],
-        axis=1
-    )
-
+    """Creates a unified 'contact' column for grouping."""
+    if 'receiver' in df.columns:
+        df['contact'] = df.apply(
+            lambda row: row['receiver'] if row['sender'] == main_user else row['sender'],
+            axis=1
+        )
+    else:
+        # Fallback if no receiver column
+        df['contact'] = df['sender'].apply(lambda x: x if x != main_user else "Unknown")
     return df
 
 
-# ==========================================
-# ANALYSIS ENGINE
-# ==========================================
+def prepare_for_calculator(df, main_user):
+    """
+    Transforms the dataset into the format expected by relationCalculator.py.
+    Also identifies valid interactions (excluding system/media).
+    """
+    calc_df = df.copy()
+    calc_df['contact_name'] = calc_df['contact']
+    calc_df['is_user_sender'] = calc_df['sender'] == main_user
+
+    # Exclude system/media for valid interactions
+    media_keywords = ['<Media omitted>', 'image omitted', 'audio omitted', 'video omitted', 'sticker omitted', 'null']
+    calc_df['is_media'] = calc_df['message'].astype(str).apply(
+        lambda m: any(kw in m for kw in media_keywords) or m.strip() == ""
+    )
+
+    calc_df['word_count'] = calc_df['message'].astype(str).apply(lambda m: len(m.split()) if m else 0)
+
+    # Calculate inactivity hours
+    calc_df = calc_df.sort_values(['contact', 'timestamp'])
+    calc_df['prev_timestamp'] = calc_df.groupby('contact')['timestamp'].shift(1)
+    calc_df['inactivity_hours'] = (calc_df['timestamp'] - calc_df['prev_timestamp']).dt.total_seconds() / 3600.0
+
+    # Separating raw vs valid user-to-user interaction
+    valid_df = calc_df[~calc_df['is_media']]
+
+    return calc_df, valid_df
+
 
 def analyze_contacts(df, main_user):
-
+    """
+    Analyzes each contact computationally, running the mathematically-corrected
+    calculate_scores from relationCalculator dynamically on the uploaded dataset.
+    """
     reference_date = df['timestamp'].max()
     contacts = df['contact'].unique()
+
+    # Dynamically generate advanced scores internally instead of static JSON
+    calc_df, valid_df = prepare_for_calculator(df, main_user)
+    advanced_scores = calculate_scores(calc_df)
+
     results = []
 
     for contact in contacts:
-
         cdf = df[df['contact'] == contact]
+        vdf = valid_df[valid_df['contact'] == contact]
 
         total = len(cdf)
-        sent = len(cdf[cdf['sender'] == main_user])
-        received = len(cdf[cdf['sender'] == contact])
+        valid_total = len(vdf)
 
-        reply_ratio = received / total if total else 0
+        # Interaction balance based purely on valid texts
+        sent_valid = len(vdf[vdf['sender'] == main_user])
+        received_valid = len(vdf[vdf['sender'] == contact])
+
+        reply_ratio = received_valid / valid_total if valid_total else 0
 
         last_interaction = cdf['timestamp'].max()
         inactive_days = (reference_date - last_interaction).days
@@ -95,33 +134,23 @@ def analyze_contacts(df, main_user):
             else:
                 break
 
-        # SCORING
-        score = 100
-
-        if inactive_days > 30:
-            score -= 35
-        elif inactive_days > 14:
-            score -= 20
-
-        if reply_ratio < 0.3:
-            score -= 25
-        elif reply_ratio < 0.5:
-            score -= 15
-
-        if msgs_last_week < 2:
-            score -= 15
-
-        if consecutive_you >= 3:
-            score -= 10
-
-        score = max(0, score)
+        # FETCH ADVANCED SCORING DATA
+        if contact in advanced_scores:
+            score = advanced_scores[contact].get("health_score", 0)
+            risk_level = advanced_scores[contact].get("risk_level", "Unknown")
+        else:
+            # Fallback for minor/edge-case contacts
+            score = 0.0
+            risk_level = "No Data"
 
         results.append({
             "Contact": contact,
             "Health Score": score,
+            "Risk Level": risk_level,
             "Total Messages": total,
-            "Sent By You": sent,
-            "Received": received,
+            "Valid Interactions": valid_total,
+            "Sent By You": sent_valid,
+            "Received": received_valid,
             "Reply Ratio": round(reply_ratio, 2),
             "Inactive Days": inactive_days,
             "Messages Last 7 Days": msgs_last_week,
@@ -130,98 +159,3 @@ def analyze_contacts(df, main_user):
         })
 
     return pd.DataFrame(results)
-
-
-# ==========================================
-# MAIN DASHBOARD
-# ==========================================
-
-def main():
-
-    st.title("📊 Relationship Intelligence Dashboard")
-
-    df = load_data()
-    if df.empty:
-        return
-
-    main_user = detect_main_user(df)
-    df = add_contact_column(df, main_user)
-
-    st.success(f"Detected Main User: {main_user}")
-
-    analysis_df = analyze_contacts(df, main_user)
-
-    # NETWORK OVERVIEW
-    st.header("Network Overview")
-
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total Contacts", len(analysis_df))
-    col2.metric("Average Health Score", int(analysis_df['Health Score'].mean()))
-    col3.metric(
-        "Most Inactive",
-        analysis_df.sort_values("Inactive Days", ascending=False).iloc[0]['Contact']
-    )
-
-    st.dataframe(
-        analysis_df.sort_values("Health Score", ascending=False),
-        use_container_width=True
-    )
-
-    st.divider()
-
-    # DETAILED ANALYSIS
-    st.header("Detailed Contact Analysis")
-
-    selected = st.selectbox("Select Contact", analysis_df['Contact'])
-    person = analysis_df[analysis_df['Contact'] == selected].iloc[0]
-
-    colA, colB = st.columns(2)
-    # --- BOTTOM ROW: ACTIONABLE ADVICE ---
-    #if st.button("Generate Draft Message"):
-        #st.write("*(Draft message will appear here...)*")
-
-    with colA:
-        st.metric("Health Score", person["Health Score"])
-        st.write("Total Messages:", person["Total Messages"])
-        st.write("Reply Ratio:", person["Reply Ratio"])
-        st.write("Inactive Days:", person["Inactive Days"])
-        st.write("Messages Last 7 Days:", person["Messages Last 7 Days"])
-
-    with colB:
-        st.write("Sent By You:", person["Sent By You"])
-        st.write("Received:", person["Received"])
-        st.write("Consecutive You:", person["Consecutive You"])
-        st.write("Last Interaction:", person["Last Interaction"])
-
-    if st.button("AI Behaviour Insight"):
-        # --- AI INTELLIGENCE (BEHAVIORAL) ---
-        st.header("AI Behavioral Insights")
-
-        colA, colB = st.columns(2)
-
-        with colA:
-            st.subheader("📝 Conversation Summary")
-            st.info(
-                "The conversation has been highly collaborative over the past 7 days. "
-                "Both parties are actively engaging, though there was a slight drop in communication over the weekend. "
-                "Overall tone remains supportive and forward-looking."
-            )
-
-        with colB:
-            st.subheader("🚩 Behavioral Flags")
-            st.success("✅ High reciprocal questioning (showing mutual interest).")
-            st.warning("⚠️ User B has been using shorter sentences lately.")
-            st.success("✅ Consistent daily check-ins.")
-
-    st.subheader("Conversation History")
-
-    chat = df[df['contact'] == selected][['timestamp', 'sender', 'message']]
-    chat = chat.sort_values("timestamp", ascending=False)
-    chat['timestamp'] = chat['timestamp'].dt.strftime('%b %d, %H:%M')
-
-    st.dataframe(chat, height=400, use_container_width=True)
-
-
-
-if __name__ == "__main__":
-    main()
