@@ -46,7 +46,9 @@ with st.sidebar:
                 st.error(f"Error processing file: {str(e)}")
                 st.stop()
     else:
-        st.info("No file uploaded. Loading default demo dataset...")
+        st.info("Currently the app is set to pre-uploaded synthetic data, so upload will not work!!")
+        st.info("UPLOADS WORK LOACALLY")
+
         import os
 
         demo_path = os.path.join("mainData", "whatsapp_unique_chats_5000.csv")
