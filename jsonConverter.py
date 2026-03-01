@@ -15,12 +15,12 @@ OUTPUT_FILE_PATH = "mainData/timelines.json"
 # -----------------------------------
 
 def generate_timelines():
-    print(f"📂 Loading processed dataset from: {INPUT_FILE_PATH}")
+    print(f"Loading processed dataset from: {INPUT_FILE_PATH}")
 
     try:
         df = pd.read_csv(INPUT_FILE_PATH)
     except FileNotFoundError:
-        print("❌ Error: Processed CSV not found. Run your cleaning script first.")
+        print("Error: Processed CSV not found. Run your cleaning script first.")
         return
 
     # 1. Ensure timestamp is converted to datetime objects
@@ -31,7 +31,7 @@ def generate_timelines():
 
     timelines = {}
 
-    print("🧠 Organizing unique chat histories per contact...")
+    print("Organizing unique chat histories per contact...")
 
     # Grouping by 'contact_name' (the person who is NOT 'You')
     for contact, group in df.groupby("contact_name"):
@@ -61,8 +61,8 @@ def generate_timelines():
     with open(OUTPUT_FILE_PATH, "w") as f:
         json.dump(timelines, f, default=str, indent=2)
 
-    print(f"✅ Successfully mapped {len(timelines)} unique relationships.")
-    print(f"🚀 Saved timelines to: {OUTPUT_FILE_PATH}")
+    print(f"Successfully mapped {len(timelines)} unique relationships.")
+    print(f"Saved timelines to: {OUTPUT_FILE_PATH}")
 
 
 # -----------------------------------

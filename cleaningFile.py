@@ -36,19 +36,19 @@ def clean_text(text):
 # -----------------------------------
 
 def clean_chat_data():
-    print(f"📂 Loading unique WhatsApp dataset from: {RAW_FILE_PATH}")
+    print(f"Loading unique WhatsApp dataset from: {RAW_FILE_PATH}")
 
     try:
         # Loading CSV with lowercase headers as provided: date,time,sender,receiver,message
         df = pd.read_csv(RAW_FILE_PATH)
     except FileNotFoundError:
-        print(f"❌ Error: File not found at {RAW_FILE_PATH}")
+        print(f"Error: File not found at {RAW_FILE_PATH}")
         return
 
     print(f"Initial Rows: {len(df)}")
 
     # -----------------------------------
-    # 1️⃣ TIMESTAMP PARSING
+    # TIMESTAMP PARSING
     # -----------------------------------
     # Handles "12/02/2026, 10:45 am" format
     # We strip any leading/trailing whitespace from date/time just in case
@@ -58,7 +58,7 @@ def clean_chat_data():
     )
 
     # -----------------------------------
-    # 2️⃣ MESSAGE CLEANING & UNIQUENESS
+    # MESSAGE CLEANING & UNIQUENESS
     # -----------------------------------
     df["message_raw"] = df["message"]  # Store original for reference
     df["message"] = df["message"].apply(clean_text)
@@ -67,7 +67,7 @@ def clean_chat_data():
     df = df.drop_duplicates(subset=["message_raw"]).copy()
 
     # -----------------------------------
-    # 3️⃣ RELATIONSHIP MAPPING
+    # RELATIONSHIP MAPPING
     # -----------------------------------
     # The "Contact" is the person who is NOT "You"
     df["contact_name"] = np.where(
@@ -80,9 +80,9 @@ def clean_chat_data():
     df["is_user_sender"] = df["sender"].str.lower() == "you"
 
     # -----------------------------------
-    # 4️⃣ FEATURE ENGINEERING
+    # FEATURE ENGINEERING
     # -----------------------------------
-    print("🛠️ Engineering features for intelligence system...")
+    print("Engineering features for intelligence system...")
 
     df["message_length"] = df["message"].apply(len)
     df["word_count"] = df["message"].apply(lambda x: len(x.split()))
@@ -92,7 +92,7 @@ def clean_chat_data():
     df["is_weekend"] = df["day_of_week"].isin(["Saturday", "Sunday"])
 
     # -----------------------------------
-    # 5️⃣ INACTIVITY & FLOW CALCULATION
+    # INACTIVITY & FLOW CALCULATION
     # -----------------------------------
     # Sort by relationship and time to see the "flow" of conversation
     df = df.sort_values(by=["contact_name", "timestamp"])
@@ -105,16 +105,16 @@ def clean_chat_data():
     df["inactivity_hours"] = df["inactivity_hours"].fillna(0)
 
     # -----------------------------------
-    # 6️⃣ FINAL OUTPUT
+    # FINAL OUTPUT
     # -----------------------------------
-    print(f"✅ Cleaned Shape: {df.shape}")
+    print(f"Cleaned Shape: {df.shape}")
 
     # Create directory if it doesn't exist
     Path(OUTPUT_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
 
     df.to_csv(OUTPUT_FILE_PATH, index=False)
 
-    print(f"🚀 Processed dataset saved to: {OUTPUT_FILE_PATH}")
+    print(f"Processed dataset saved to: {OUTPUT_FILE_PATH}")
     print("Pre-processing complete. Ready for Relationship Scoring.")
 
 
