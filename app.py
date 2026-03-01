@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from webUI import load_data, detect_main_user, add_contact_column, analyze_contacts
+import json
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="RelateAI Dashboard", layout="wide")
@@ -22,7 +23,7 @@ def process_uploaded_file(uploaded_file):
 
 
 # --- HEADER ---
-st.title("📊 RelateAI: Relationship Intelligence System")
+st.title("RelateAI: Relationship Intelligence System")
 st.markdown("Automated social relationship management, behavioral scoring, and insights.")
 
 # --- SIDEBAR (INPUT LAYER) ---
@@ -128,23 +129,58 @@ if 'analysis_df' in locals() and not analysis_df.empty:
         st.write("Messages Last 7 Days:", person["Messages Last 7 Days"])
         st.write("Last Interaction:", person["Last Interaction"])
 
-    if st.button("AI Behaviour Insight"):
-        st.header("AI Behavioral Insights")
-        colA, colB = st.columns(2)
+    st.divider()
 
-        with colA:
-            st.subheader("📝 Conversation Summary")
-            st.info(
-                "The conversation has been highly collaborative over the past 7 days. "
-                "Both parties are actively engaging, though there was a slight drop in communication over the weekend. "
-                "Overall tone remains supportive and forward-looking."
-            )
+    def load_behavioral_data():
+        file_path = "mainData/analyzedResults.json"
+        if os.path.exists(file_path):
+            with open(file_path, "r") as f:
+                return json.load(f)
+        return None
 
-        with colB:
-            st.subheader("🚩 Behavioral Flags")
-            st.success("✅ High reciprocal questioning (showing mutual interest).")
-            st.warning("⚠️ User B has been using shorter sentences lately.")
-            st.success("✅ Consistent daily check-ins.")
+
+    data = load_behavioral_data()
+
+    if data:
+        # 1. Selection logic (since the JSON has multiple users like Alex, John, etc.)
+        user_names = [user["analyzed_user"] for user in data]
+        selected_user_name = st.selectbox("Select User to Analyze", user_names)
+
+        # Get the specific data for the selected user
+        user_data = next(item for item in data if item["analyzed_user"] == selected_user_name)
+
+        if st.button("AI Behaviour Insight"):
+            st.header(f"AI Behavioral Insights: {selected_user_name}")
+
+            colA, colB = st.columns(2)
+
+            with colA:
+                st.subheader("📝 Conversation Summary")
+                # Combining Style, Baseline, and Trend for a comprehensive summary
+                summary_text = (
+                    f"**Communication Style:** {user_data['communication_style']}.  \n"
+                    f"**Emotional Baseline:** {user_data['emotional_baseline']}.  \n"
+                    f"**Trend:** {user_data['engagement_trend']}.  \n\n"
+                    f"**Advice:** {user_data['interaction_advice']}"
+                )
+                st.info(summary_text)
+
+            with colB:
+                st.subheader("🚩 Behavioral Flags")
+                for flag in user_data["behavioral_flags"]:
+                    st.success(f"✅ {flag}")
+
+                # Additional metric display
+                st.write(f"**Messages Analyzed:** {user_data['messages_analyzed']}")
+                st.write(f"**Total Volume:** {user_data['total_messages_sent']} messages")
+
+            # Optional: Display Reminders below
+            with st.expander("📅 Suggested Reminders/Actions"):
+                for reminder in user_data["suggested_reminders"][:5]:  # Show top 5
+                    st.write(f"**{reminder['event_title']}** ({reminder['datetime_context']})")
+                    st.caption(reminder['description'])
+    else:
+        st.error("Could not find analyzedResults.json in mainData folder.")
 
     st.subheader("Conversation History")
 
