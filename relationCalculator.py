@@ -144,11 +144,7 @@ def calculate_scores(df):
     return results
 
 
-# -----------------------------------
-# MAIN EXECUTION
-# -----------------------------------
-if __name__ == "__main__":
-
+def calculate_relationships():
     print("Loading processed dataset...")
     df = pd.read_csv(INPUT_FILE_PATH)
 
@@ -160,3 +156,9 @@ if __name__ == "__main__":
 
     print("Relationship health scoring complete.")
     print(f"Saved to {OUTPUT_FILE_PATH}")
+
+# -----------------------------------
+# MAIN EXECUTION
+# -----------------------------------
+if __name__ == "__main__":
+    calculate_relationships()

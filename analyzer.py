@@ -149,7 +149,11 @@ async def process_and_save_real_data(input_file_path: str, output_file_name: str
 
     print(f"Success! {len(all_user_profiles)} user profiles securely saved to: {output_path}")
 
-if __name__ == "__main__":
+def run_analysis():
     INPUT_FILE = "mainData//timelines.json"
     OUTPUT_FILE = "analyzedResults.json"
     asyncio.run(process_and_save_real_data(INPUT_FILE, OUTPUT_FILE))
+
+
+if __name__ == "__main__":
+    run_analysis()
